@@ -1,5 +1,19 @@
 # pkgs  [![Build Status][ci-img]][ci] [![Coverage Status][cov-img]][cov]
 
+Useful utils package for the Go
+
+## require
+    go version >=1.18
+
+## Features
+- support generic
+- bitmaputil: base on bitmap, support exist and get all
+- cputil:  copier extension
+- expr: expr, eg:Add,Min,Max,Cond
+- fileutil: base on afero for file extension
+- maputil: support eg:Map
+- sliceutil: support generic,eg:Contain,Sum,Map,Reduce
+- di: uber/dig extension
 
 [ci-img]: https://github.com/zonewave/pkgs/actions/workflows/go.yaml/badge.svg
 [ci]: https://github.com/zonewave/pkgs/actions/workflows/go.yaml
