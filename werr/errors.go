@@ -117,10 +117,7 @@ func New(message string) error {
 // as a value that satisfies error.
 // Errorf also records the stack trace at the point it was called.
 func Errorf(format string, args ...any) error {
-	return &fundamental{
-		msg:   fmt.Sprintf(format, args...),
-		stack: callers(),
-	}
+	return New(fmt.Sprintf(format, args...))
 }
 
 // fundamental is an error that has a message and a stack, but no caller.

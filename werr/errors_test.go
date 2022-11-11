@@ -2,19 +2,25 @@ package werr
 
 import (
 	"errors"
+	"fmt"
+	"github.com/stretchr/testify/require"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func Test_withStack_Unwrap(t *testing.T) {
-	err := &withMessage{msg: "test error"}
+	fund := Errorf("%s", "test")
+	require.Equal(t, "\"test\"", fmt.Sprintf("%q", fund))
+	require.Equal(t, "test", fmt.Sprintf("%s", fund))
+
+	err := WithMessagef(fund, "test error")
 	stackErr := WithStack(err)
-
-	assert.NotEqual(t, stackErr, err)
-	assert.Equal(t, errors.Unwrap(stackErr), err)
-
-	assert.True(t, errors.Is(stackErr, err))
-	assert.ErrorIs(t, stackErr, err)
-
+	require.NotEqual(t, stackErr, err)
+	require.Equal(t, errors.Unwrap(stackErr), err)
+	require.True(t, errors.Is(stackErr, err))
+	require.Equal(t, fund, Cause(err))
+	require.ErrorIs(t, stackErr, err)
+	require.Equal(t, "test error: test", err.Error())
+	require.Equal(t, "test error: test", fmt.Sprintf("%s", err))
+	require.Greater(t, len(fmt.Sprintf("%+v", err)), len("test error: test"))
+	require.Equal(t, "test error: test", fmt.Sprintf("%q", err))
 }

@@ -24,3 +24,9 @@ func TestAbsPath(t *testing.T) {
 	})
 
 }
+
+func TestFileInfo(t *testing.T) {
+	name, ext := FileInfo("test.go")
+	require.Equal(t, "test", name)
+	require.Equal(t, "go", ext)
+}
