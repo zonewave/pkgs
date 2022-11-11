@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/ybzhanghx/pkgs/util"
+	"github.com/ybzhanghx/pkgs/util/fileutil"
 	"github.com/ybzhanghx/pkgs/werr"
 	"io"
 	"os"
@@ -20,7 +22,7 @@ import (
 
 var configer *Configer
 
-// defaultLookupPaths find config file in those paths
+// defaultLookupPaths find config fileutil in those paths
 var defaultLookupPaths = []string{
 	"", "../", "../../", "../../../", "../../../../",
 	"./conf", "/conf", "../conf", "../../conf", "../../../conf", "../../../../conf",
@@ -52,11 +54,6 @@ func init() {
 	configer = New()
 }
 
-// AddConfigPath into lookup path list
-func AddConfigPath(in string) {
-	configer.AddPath(in)
-}
-
 // Initialize your config
 func Initialize(configFile string, cfgStructPtr interface{}) error {
 	if err := set(configFile, cfgStructPtr); err != nil {
@@ -74,20 +71,18 @@ func Initialize(configFile string, cfgStructPtr interface{}) error {
 }
 
 func set(configFile string, cfgStructPtr interface{}) error {
-	configName, configType := fileInfo(configFile)
+	configName, configType := fileutil.FileInfo(configFile)
 	configer.configFile = ""
 	configer.configName = configName
 
-	if stringInSlice(configType, SupportedExts) {
-		configer.configType = configType
-	} else {
+	if !util.ItemInSlice(configType, SupportedExts) {
 		return InvalidConfigTypeError(configType)
 	}
-
 	if err := checkObject(cfgStructPtr); err != nil {
-		return err
+		return werr.WithStack(err)
 	}
 
+	configer.configType = configType
 	configer.container = cfgStructPtr
 	return nil
 }
@@ -134,14 +129,6 @@ type Configer struct {
 	debug bool
 }
 
-// AddPath into lookup path list
-func (c *Configer) AddPath(in string) {
-	in = absPath(in)
-	if in != "" {
-		c.configPaths = append(c.configPaths, in)
-	}
-}
-
 func (c *Configer) SetDebug(debug bool) {
 	c.debug = debug
 }
@@ -156,7 +143,7 @@ func (c *Configer) getConfigType() string {
 		return ""
 	}
 
-	_, ext := fileInfo(cf)
+	_, ext := fileutil.FileInfo(cf)
 	return ext
 }
 
@@ -171,8 +158,8 @@ func (c *Configer) getConfigFile() (string, error) {
 	return c.configFile, nil
 }
 
-// Search all configPaths for any config file.
-// Returns the first path that exists (and is a config file).
+// Search all configPaths for any config fileutil.
+// Returns the first path that exists (and is a config fileutil).
 func (c *Configer) findConfigFile() (string, error) {
 	for _, cp := range c.configPaths {
 		file := c.searchInPath(cp)
@@ -228,7 +215,7 @@ func (c *Configer) processConfigFile() error {
 		return err
 	}
 
-	if !stringInSlice(c.getConfigType(), SupportedExts) {
+	if !util.ItemInSlice(c.getConfigType(), SupportedExts) {
 		return UnsupportedConfigError(c.getConfigType())
 	}
 

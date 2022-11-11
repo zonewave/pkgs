@@ -1,31 +1,10 @@
 package config
 
 import (
-	"os"
-	"path/filepath"
-	"reflect"
-	"strings"
-
 	"github.com/spf13/afero"
+	"os"
+	"reflect"
 )
-
-func absPath(inPath string) string {
-	if strings.HasPrefix(inPath, "$") {
-		end := strings.Index(inPath, string(os.PathSeparator))
-		inPath = os.Getenv(inPath[1:end]) + inPath[end:]
-	}
-
-	if filepath.IsAbs(inPath) {
-		return filepath.Clean(inPath)
-	}
-
-	p, err := filepath.Abs(inPath)
-	if err == nil {
-		return filepath.Clean(p)
-	}
-
-	return ""
-}
 
 // Check if File / Directory Exists
 func exists(fs afero.Fs, path string) (bool, error) {
@@ -37,15 +16,6 @@ func exists(fs afero.Fs, path string) (bool, error) {
 		return false, nil
 	}
 	return false, err
-}
-
-func stringInSlice(a string, list []string) bool {
-	for _, b := range list {
-		if b == a {
-			return true
-		}
-	}
-	return false
 }
 
 func checkObject(obj interface{}) error {
@@ -60,13 +30,4 @@ func checkObject(obj interface{}) error {
 // copyObject return inner type copy
 func copyObject(ptr interface{}) interface{} {
 	return reflect.New(reflect.Indirect(reflect.ValueOf(ptr)).Type()).Interface()
-}
-
-func fileInfo(path string) (name, ext string) {
-	if fileExt := filepath.Ext(path); len(fileExt) > 1 {
-		ext = fileExt[1:]
-	}
-
-	name = strings.TrimSuffix(path, filepath.Ext(path))
-	return
 }

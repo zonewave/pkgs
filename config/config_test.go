@@ -1,6 +1,11 @@
 package config
 
-import "os"
+import (
+	"errors"
+	"github.com/stretchr/testify/require"
+	"os"
+	"testing"
+)
 
 func (suite *Suite) TestJSON() {
 	cfg := &AppConfig{}
@@ -62,4 +67,56 @@ func (suite *Suite) TestCSV() {
 	suite.True(ok)
 	suite.Equal("test-app", got.AppName)
 	suite.NotEmpty(got.LessonExtensions)
+}
+
+func Test_set(t *testing.T) {
+	type args struct {
+		configFile   string
+		cfgStructPtr interface{}
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr error
+	}{
+		// TODO: Add test cases.
+		{
+			"ok",
+			args{
+				"1.json",
+				&AppConfig{},
+			},
+			nil,
+		},
+		{
+			"InvalidConfigTypeError",
+			args{
+				"1.jsont",
+				&AppConfig{},
+			},
+			InvalidConfigTypeError("jsont"),
+		},
+		{
+			"ok",
+			args{
+				"1.json",
+				3,
+			},
+			InvalidConfigTypeError("should be a pointer to a struct"),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := set(tt.args.configFile, tt.args.cfgStructPtr); !errors.Is(err, tt.wantErr) {
+				t.Errorf("set() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestLoader(t *testing.T) {
+	l := Loader()
+	require.NotEmpty(t, l)
+	l.SetDebug(true)
+	require.Equal(t, true, l.debug)
 }
