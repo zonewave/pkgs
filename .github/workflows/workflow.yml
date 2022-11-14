@@ -2,6 +2,24 @@ name: go ci
 run-name: ${{ github.actor }} start jobs
 on: [push]
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: './go.mod'
+
+      - name: Lint Go Code
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin 
+          go get -u golang.org/x/lint/golint
+          go install golang.org/x/lint/golint
+          make lint
+
   test:
     name: Test
     runs-on: ubuntu-latest

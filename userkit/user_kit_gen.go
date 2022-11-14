@@ -23,55 +23,28 @@ func (z *UserKit) DecodeMsg(dc *msgp.Reader) (err error) {
 			err = msgp.WrapError(err)
 			return
 		}
-		switch msgp.UnsafeString(field) {
+		fieldStr:=msgp.UnsafeString(field)
+		switch fieldStr {
 		case "userID":
 			z.UserID, err = dc.ReadUint64()
-			if err != nil {
-				err = msgp.WrapError(err, "UserID")
-				return
-			}
 		case "locale":
 			z.Locale, err = dc.ReadString()
-			if err != nil {
-				err = msgp.WrapError(err, "Locale")
-				return
-			}
 		case "appVersion":
 			z.AppVersion, err = dc.ReadString()
-			if err != nil {
-				err = msgp.WrapError(err, "AppVersion")
-				return
-			}
 		case "regionCode":
 			z.RegionCode, err = dc.ReadString()
-			if err != nil {
-				err = msgp.WrapError(err, "RegionCode")
-				return
-			}
 		case "timezone":
 			z.TimeZone, err = dc.ReadString()
-			if err != nil {
-				err = msgp.WrapError(err, "TimeZone")
-				return
-			}
 		case "timeOffset":
 			z.TimeOffset, err = dc.ReadInt()
-			if err != nil {
-				err = msgp.WrapError(err, "TimeOffset")
-				return
-			}
 		case "userAgent":
 			z.UserAgent, err = dc.ReadString()
-			if err != nil {
-				err = msgp.WrapError(err, "UserAgent")
-				return
-			}
 		default:
 			err = dc.Skip()
-			if err != nil {
-				err = msgp.WrapError(err)
-				return
-			}
+		}
+		if err != nil {
+			err = msgp.WrapError(err, fieldStr)
+			return
 		}
 	}
 	return
@@ -198,55 +171,28 @@ func (z *UserKit) UnmarshalMsg(bts []byte) (o []byte, err error) {
 			err = msgp.WrapError(err)
 			return
 		}
-		switch msgp.UnsafeString(field) {
+		fieldStr:=msgp.UnsafeString(field)
+		switch fieldStr {
 		case "userID":
 			z.UserID, bts, err = msgp.ReadUint64Bytes(bts)
-			if err != nil {
-				err = msgp.WrapError(err, "UserID")
-				return
-			}
 		case "locale":
 			z.Locale, bts, err = msgp.ReadStringBytes(bts)
-			if err != nil {
-				err = msgp.WrapError(err, "Locale")
-				return
-			}
 		case "appVersion":
 			z.AppVersion, bts, err = msgp.ReadStringBytes(bts)
-			if err != nil {
-				err = msgp.WrapError(err, "AppVersion")
-				return
-			}
 		case "regionCode":
 			z.RegionCode, bts, err = msgp.ReadStringBytes(bts)
-			if err != nil {
-				err = msgp.WrapError(err, "RegionCode")
-				return
-			}
 		case "timezone":
 			z.TimeZone, bts, err = msgp.ReadStringBytes(bts)
-			if err != nil {
-				err = msgp.WrapError(err, "TimeZone")
-				return
-			}
 		case "timeOffset":
 			z.TimeOffset, bts, err = msgp.ReadIntBytes(bts)
-			if err != nil {
-				err = msgp.WrapError(err, "TimeOffset")
-				return
-			}
 		case "userAgent":
 			z.UserAgent, bts, err = msgp.ReadStringBytes(bts)
-			if err != nil {
-				err = msgp.WrapError(err, "UserAgent")
-				return
-			}
 		default:
 			bts, err = msgp.Skip(bts)
-			if err != nil {
-				err = msgp.WrapError(err)
-				return
-			}
+		}
+		if err != nil {
+			err = msgp.WrapError(err,fieldStr)
+			return
 		}
 	}
 	o = bts
