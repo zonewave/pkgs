@@ -42,15 +42,15 @@ func TestItemInSlice(t *testing.T) {
 	}
 	for _, tt := range testStrings {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := ItemInSlice(tt.args.item, tt.args.list); got != tt.want {
-				t.Errorf("ItemInSlice() = %v, want %v", got, tt.want)
+			if got := SliceContain(tt.args.item, tt.args.list); got != tt.want {
+				t.Errorf("SliceContain() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 	for _, tt := range testInts {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := ItemInSlice(tt.args.item, tt.args.list); got != tt.want {
-				t.Errorf("ItemInSlice() = %v, want %v", got, tt.want)
+			if got := SliceContain(tt.args.item, tt.args.list); got != tt.want {
+				t.Errorf("SliceContain() = %v, want %v", got, tt.want)
 			}
 		})
 	}

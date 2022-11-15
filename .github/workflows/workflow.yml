@@ -18,6 +18,7 @@ jobs:
           export PATH=$PATH:$(go env GOPATH)/bin 
           go get -u golang.org/x/lint/golint
           go install golang.org/x/lint/golint
+          go mod tidy
           make lint
 
   test:

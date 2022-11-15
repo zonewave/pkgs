@@ -9,6 +9,7 @@ import (
 	"go.uber.org/dig"
 )
 
+// New return a New instance
 func New(opts ...HubOption) (*Hub, error) {
 	hub := &Hub{
 		cleanup:  cleanup.Entry{},
@@ -147,6 +148,7 @@ func (hub *Hub) Provide(constructor interface{}, opts ...ProvideOption) error {
 	return hub.container.Provide(constructor, opts...)
 }
 
+// GetProvidedSlice  return provide slice
 func (hub *Hub) GetProvidedSlice() []Provided {
 	return hub.provides
 }

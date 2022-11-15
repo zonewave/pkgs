@@ -1,5 +1,6 @@
 package di
 
+// Annotated  annotation the di option
 type Annotated struct {
 	// If specified, this will be used as the name for all non-error values returned
 	// by the constructor. For more information on named values, see the documentation

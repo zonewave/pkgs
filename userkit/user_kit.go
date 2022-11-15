@@ -6,6 +6,7 @@ import (
 	"github.com/ybzhanghx/pkgs/ctxfield"
 )
 
+// UserKit  user info
 //go:generate msgp
 type UserKit struct {
 	UserID     uint64 `json:"userID,omitempty" msg:"userID"`
@@ -22,10 +23,12 @@ func (z *UserKit) String() string {
 	return string(bs)
 }
 
+// ToCtx context insert kit
 func ToCtx(ctx context.Context, kit *UserKit) context.Context {
 	return context.WithValue(ctx, ctxfield.UserKitKey, kit)
 }
 
+// FromCtx context get from context
 func FromCtx(ctx context.Context) *UserKit {
 	v, ok := ctx.Value(ctxfield.UserKitKey).(*UserKit)
 	if !ok {

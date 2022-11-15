@@ -75,7 +75,7 @@ func set(configFile string, cfgStructPtr interface{}) error {
 	configer.configFile = ""
 	configer.configName = configName
 
-	if !util.ItemInSlice(configType, SupportedExts) {
+	if !util.SliceContain(configType, SupportedExts) {
 		return InvalidConfigTypeError(configType)
 	}
 	if err := checkObject(cfgStructPtr); err != nil {
@@ -99,6 +99,7 @@ func Reset() {
 	configer = New()
 }
 
+// Loader return configer
 func Loader() *Configer {
 	return configer
 }
@@ -129,6 +130,7 @@ type Configer struct {
 	debug bool
 }
 
+// SetDebug  set debug flag
 func (c *Configer) SetDebug(debug bool) {
 	c.debug = debug
 }
@@ -215,7 +217,7 @@ func (c *Configer) processConfigFile() error {
 		return err
 	}
 
-	if !util.ItemInSlice(c.getConfigType(), SupportedExts) {
+	if !util.SliceContain(c.getConfigType(), SupportedExts) {
 		return UnsupportedConfigError(c.getConfigType())
 	}
 

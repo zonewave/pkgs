@@ -4,6 +4,7 @@ import (
 	"github.com/jinzhu/copier"
 )
 
+// ShallowCopy  not deepCopy
 func ShallowCopy(toValue interface{}, fromValue interface{}) error {
 	return copier.CopyWithOption(toValue, fromValue, copier.Option{
 		IgnoreEmpty: true,
@@ -11,6 +12,7 @@ func ShallowCopy(toValue interface{}, fromValue interface{}) error {
 	})
 }
 
+// DeepCopy deep copies
 func DeepCopy(toValue interface{}, fromValue interface{}) error {
 	return copier.CopyWithOption(toValue, fromValue, copier.Option{
 		IgnoreEmpty: true,

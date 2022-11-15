@@ -39,6 +39,7 @@ func Run() {
 	entry.Run()
 }
 
+// Entry cleanup Entry
 type Entry struct {
 	mu   sync.Mutex
 	fns  []func()
@@ -75,6 +76,7 @@ func (entry *Entry) Register(container interface{}) {
 	}
 }
 
+// RegisterStruct add registered interface
 func (entry *Entry) RegisterStruct(ctor interface{}) error {
 	cValue := reflect.Indirect(reflect.ValueOf(ctor))
 	if cValue.Kind() != reflect.Struct {

@@ -43,7 +43,7 @@ func walkStructValue(v reflect.Value, tag string, fn GetValueFn) (err error) {
 
 		switch fVal.Kind() {
 		case reflect.Struct:
-			if isJson(name) {
+			if isJSON(name) {
 				fieldObj := reflect.New(typ.Field(i).Type).Interface()
 				value, err := fn(name)
 				if err != nil {
@@ -197,7 +197,7 @@ func setSliceVal(v reflect.Value, value string) error {
 	return nil
 }
 
-func isJson(key string) bool {
+func isJSON(key string) bool {
 	return strings.HasSuffix(key, ".json") || strings.HasSuffix(key, ".json.secret")
 }
 

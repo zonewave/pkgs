@@ -25,6 +25,7 @@ var defaultCORSConfig = cors.Config{
 	MaxAge:           12 * time.Hour,
 }
 
+// NewDefaultConfig  return a new Default Config object
 func NewDefaultConfig(opts ...func(cfg *cors.Config)) *cors.Config {
 	var cfg cors.Config
 	_ = cputil.DeepCopy(&cfg, defaultCORSConfig)

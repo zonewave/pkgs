@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// AbsPath  Absolute path
 func AbsPath(inPath string) string {
 	if strings.HasPrefix(inPath, "$") {
 		end := strings.Index(inPath, string(os.PathSeparator))
@@ -24,6 +25,7 @@ func AbsPath(inPath string) string {
 	return ""
 }
 
+// FileInfo return file and fileExt
 func FileInfo(path string) (name, ext string) {
 	if fileExt := filepath.Ext(path); len(fileExt) > 1 {
 		ext = fileExt[1:]

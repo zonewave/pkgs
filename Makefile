@@ -3,7 +3,7 @@ GO_FILES=`go list ./... | grep -v -E "mock|store|test|fake|cmd"`
 
 
 lint: ## Lint Golang files
-	@golint -set_exit_status ${GO_FILES}
+	@golint  ${GO_FILES}
 
 
 test:

@@ -42,7 +42,7 @@ func TestCleanup(t *testing.T) {
 	var e Entry
 	i, j := 0, 0
 	func() {
-		e.Register(func() { i += 1 })
+		e.Register(func() { i++ })
 		e.Register(func() { j += 2 })
 		e.Run()
 		e.Run() // multiple runs will be OK.
