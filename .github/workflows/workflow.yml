@@ -36,3 +36,4 @@ jobs:
         with:
           token: ${{secrets.CODECOV_TOKEN}}
           file: .cover.txt
+      - run: make clean

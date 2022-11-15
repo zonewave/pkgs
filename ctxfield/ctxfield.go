@@ -1,8 +1,10 @@
 package ctxfield
 
+type ctxKey string
+
 var (
 	// TraceIDKey trace Key
-	TraceIDKey = "pkgs-trace-id"
+	TraceIDKey ctxKey = "pkgs-trace-id"
 	// UserKitKey userKit key
-	UserKitKey = "pkgs-user-kit"
+	UserKitKey ctxKey = "pkgs-user-kit"
 )
