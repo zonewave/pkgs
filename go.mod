@@ -4,6 +4,8 @@ go 1.19
 
 require (
 	github.com/BurntSushi/toml v1.2.1
+	github.com/Soft/iter v0.1.0
+	github.com/cockroachdb/errors v1.9.0
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.1
 	github.com/gocarina/gocsv v0.0.0-20221105105431-c8ef78125b99
@@ -19,7 +21,6 @@ require (
 )
 
 require (
-	github.com/cockroachdb/errors v1.9.0 // indirect
 	github.com/cockroachdb/logtags v0.0.0-20211118104740-dabe8e521a4f // indirect
 	github.com/cockroachdb/redact v1.1.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
