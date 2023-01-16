@@ -3,10 +3,11 @@ package userkit
 import (
 	"context"
 	"encoding/json"
-	"github.com/ybzhanghx/pkgs/ctxfield"
+	"github.com/zonewave/pkgs/ctxfield"
 )
 
 // UserKit  user info
+//
 //go:generate msgp
 type UserKit struct {
 	UserID     uint64 `json:"userID,omitempty" msg:"userID"`

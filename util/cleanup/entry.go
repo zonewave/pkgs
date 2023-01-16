@@ -6,24 +6,24 @@
 //
 // In my_package.go
 //
-//   cleanup.Register(func(){
-//     // Arbitrary clean up function, most likely close goroutine, etc.
-//   })
+//	cleanup.Register(func(){
+//	  // Arbitrary clean up function, most likely close goroutine, etc.
+//	})
 //
 // In main.go
 //
-//   func main() {
-//     flag.Parse()
-//     defer cleanup.Run()
-//   }
+//	func main() {
+//	  flag.Parse()
+//	  defer cleanup.Run()
+//	}
 package cleanup
 
 import (
-	"github.com/ybzhanghx/pkgs/log"
+	"github.com/zonewave/pkgs/log"
 	"reflect"
 	"sync"
 
-	"github.com/ybzhanghx/pkgs/werr"
+	"github.com/cockroachdb/errors"
 )
 
 // entry global cleanup entry
@@ -80,7 +80,7 @@ func (entry *Entry) Register(container interface{}) {
 func (entry *Entry) RegisterStruct(ctor interface{}) error {
 	cValue := reflect.Indirect(reflect.ValueOf(ctor))
 	if cValue.Kind() != reflect.Struct {
-		return werr.New("RegisterStruct receive a struct or ptr to struct")
+		return errors.New("RegisterStruct receive a struct or ptr to struct")
 	}
 	for i := 0; i < cValue.NumField(); i++ {
 		field := cValue.Field(i)
@@ -104,10 +104,10 @@ func (entry *Entry) RegisterStruct(ctor interface{}) error {
 func (entry *Entry) RegisterFunc(fn interface{}) error {
 	fType := reflect.TypeOf(fn)
 	if fType.Kind() != reflect.Func {
-		return werr.New("cleanup: unsupported type")
+		return errors.New("cleanup: unsupported type")
 	}
 	if fType.NumIn() > 0 {
-		return werr.New("RegisterFunc receive func() or func() error")
+		return errors.New("RegisterFunc receive func() or func() error")
 	}
 
 	if f, ok := fn.(func()); ok {
@@ -122,7 +122,7 @@ func (entry *Entry) RegisterFunc(fn interface{}) error {
 		})
 		return nil
 	}
-	return werr.New("RegisterFunc receive func() or func() error")
+	return errors.New("RegisterFunc receive func() or func() error")
 }
 
 func (entry *Entry) register(fns ...func()) {

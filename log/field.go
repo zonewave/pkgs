@@ -3,8 +3,8 @@ package log
 import (
 	"context"
 	"github.com/sirupsen/logrus"
-	"github.com/ybzhanghx/pkgs/ctxfield"
-	"github.com/ybzhanghx/pkgs/userkit"
+	"github.com/zonewave/pkgs/ctxfield"
+	"github.com/zonewave/pkgs/userkit"
 )
 
 var ctxMarker struct{}

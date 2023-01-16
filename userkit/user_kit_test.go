@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/r3labs/diff"
 	"github.com/stretchr/testify/require"
-	"github.com/ybzhanghx/pkgs/util"
+	"github.com/zonewave/pkgs/util"
 	"math/rand"
 	"testing"
 )

@@ -38,7 +38,7 @@ func TestStack(t *testing.T) {
 		frames := CallerStack(0, 0)
 		require.NotEmpty(t, frames)
 		f := frames[0]
-		assert.Equal(t, "github.com/ybzhanghx/pkgs/di/xreflect.TestStack.func1", f.Function)
+		assert.Equal(t, "github.com/zonewave/pkgs/di/xreflect.TestStack.func1", f.Function)
 		assert.Contains(t, f.File, "xreflect/stack_test.go")
 		assert.NotZero(t, f.Line)
 	})
@@ -54,7 +54,7 @@ func TestStack(t *testing.T) {
 		require.True(t, len(frames) > 3, "expected at least three frames")
 		for i, name := range []string{"func2.1.1", "func2.1", "func2"} {
 			f := frames[i]
-			assert.Equal(t, "github.com/ybzhanghx/pkgs/di/xreflect.TestStack."+name, f.Function)
+			assert.Equal(t, "github.com/zonewave/pkgs/di/xreflect.TestStack."+name, f.Function)
 			assert.Contains(t, f.File, "xreflect/stack_test.go")
 			assert.NotZero(t, f.Line)
 		}
@@ -70,7 +70,7 @@ func TestStack(t *testing.T) {
 
 		require.NotEmpty(t, frames)
 		f := frames[0]
-		assert.Equal(t, "github.com/ybzhanghx/pkgs/di/xreflect.TestStack.func3", f.Function)
+		assert.Equal(t, "github.com/zonewave/pkgs/di/xreflect.TestStack.func3", f.Function)
 		assert.Contains(t, f.File, "xreflect/stack_test.go")
 		assert.NotZero(t, f.Line)
 	})
@@ -87,8 +87,8 @@ func TestStackCallerName(t *testing.T) {
 			desc: "skip di components",
 			give: Stack{
 				{
-					Function: "github.com/ybzhanghx/pkgs/di.Foo()",
-					File:     "github.com/ybzhanghx/pkgs/di/foo.go",
+					Function: "github.com/zonewave/pkgs/di.Foo()",
+					File:     "github.com/zonewave/pkgs/di/foo.go",
 				},
 				{
 					Function: "foo/bar.Baz()",
@@ -101,7 +101,7 @@ func TestStackCallerName(t *testing.T) {
 			desc: "skip di in wrong directory",
 			give: Stack{
 				{
-					Function: "github.com/ybzhanghx/pkgs/di/di.Foo()",
+					Function: "github.com/zonewave/pkgs/di/di.Foo()",
 					File:     "di/foo.go",
 				},
 				{
@@ -115,7 +115,7 @@ func TestStackCallerName(t *testing.T) {
 			desc: "skip di subpackage",
 			give: Stack{
 				{
-					Function: "github.com/ybzhanghx/pkgs/di/xreflect.Foo()",
+					Function: "github.com/zonewave/pkgs/di/xreflect.Foo()",
 					File:     "di/internal/xreflect/foo.go",
 				},
 				{
@@ -130,7 +130,7 @@ func TestStackCallerName(t *testing.T) {
 			give: Stack{
 				{
 					Function: "some/thing.Foo()",
-					File:     "github.com/ybzhanghx/pkgs/di/foo_test.go",
+					File:     "github.com/zonewave/pkgs/di/foo_test.go",
 				},
 			},
 			want: "some/thing.Foo()",
@@ -139,11 +139,11 @@ func TestStackCallerName(t *testing.T) {
 			desc: "don't skip di prefix",
 			give: Stack{
 				{
-					Function: "github.com/ybzhanghx/pkgs/difoo.Bar()",
-					File:     "github.com/ybzhanghx/pkgs/difoo/bar.go",
+					Function: "github.com/zonewave/pkgs/difoo.Bar()",
+					File:     "github.com/zonewave/pkgs/difoo/bar.go",
 				},
 			},
-			want: "github.com/ybzhanghx/pkgs/difoo.Bar()",
+			want: "github.com/zonewave/pkgs/difoo.Bar()",
 		},
 	}
 

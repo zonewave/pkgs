@@ -142,7 +142,7 @@ func shouldIgnoreFrame(f Frame) bool {
 		return false
 	}
 
-	s := strings.TrimPrefix(f.Function, "github.com/ybzhanghx/pkgs/di")
+	s := strings.TrimPrefix(f.Function, "github.com/zonewave/pkgs/di")
 	if len(s) > 0 && s[0] == '.' || s[0] == '/' {
 		return true
 	}

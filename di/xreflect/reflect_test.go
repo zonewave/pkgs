@@ -83,7 +83,7 @@ func TestReturnTypes(t *testing.T) {
 }
 
 func TestCaller(t *testing.T) {
-	assert.Equal(t, "github.com/ybzhanghx/pkgs/di/xreflect.TestCaller", Caller())
+	assert.Equal(t, "github.com/zonewave/pkgs/di/xreflect.TestCaller", Caller())
 }
 
 func someFunc() {}
@@ -97,7 +97,7 @@ func TestFuncName(t *testing.T) {
 		{
 			desc: "function",
 			give: someFunc,
-			want: "github.com/ybzhanghx/pkgs/di/xreflect.someFunc()",
+			want: "github.com/zonewave/pkgs/di/xreflect.someFunc()",
 		},
 		{
 			desc: "not a function",

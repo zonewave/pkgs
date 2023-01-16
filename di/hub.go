@@ -3,9 +3,9 @@ package di
 import (
 	"reflect"
 
-	"github.com/ybzhanghx/pkgs/di/xreflect"
-	"github.com/ybzhanghx/pkgs/util/cleanup"
-	"github.com/ybzhanghx/pkgs/werr"
+	"github.com/cockroachdb/errors"
+	"github.com/zonewave/pkgs/di/xreflect"
+	"github.com/zonewave/pkgs/util/cleanup"
 	"go.uber.org/dig"
 )
 
@@ -24,7 +24,7 @@ func New(opts ...HubOption) (*Hub, error) {
 	)
 	for i, p := range hub.provides {
 		if err := hub.usingProvide(p); err != nil {
-			return nil, werr.Errorf("error after options[%d] were applied: %v", i, err)
+			return nil, errors.Errorf("error after options[%d] were applied: %v", i, err)
 		}
 	}
 
@@ -61,7 +61,7 @@ func (hub *Hub) usingProvide(p Provided) error {
 	constructor := p.Target
 
 	if _, ok := constructor.(HubOption); ok {
-		return werr.Errorf("di.Option should be passed to di.New directly, "+
+		return errors.Errorf("di.Option should be passed to di.New directly, "+
 			"not to di.Provide: di.Provide received %v from:\n%+v",
 			constructor, p.Stack)
 	}
@@ -70,7 +70,7 @@ func (hub *Hub) usingProvide(p Provided) error {
 		var opts []dig.ProvideOption
 		switch {
 		case len(ann.Group) > 0 && len(ann.Name) > 0:
-			return werr.Errorf(
+			return errors.Errorf(
 				"di.Annotated may specify only one of Name or Group: received %v from:\n%+v",
 				ann, p.Stack)
 		case len(ann.Name) > 0:
@@ -82,7 +82,7 @@ func (hub *Hub) usingProvide(p Provided) error {
 
 		// 注册初始化函数
 		if err := hub.Provide(ann.Target, opts...); err != nil {
-			return werr.Errorf("di.Provide(%v) from:\n%+vFailed: %v", ann, p.Stack, err)
+			return errors.Errorf("di.Provide(%v) from:\n%+vFailed: %v", ann, p.Stack, err)
 		}
 
 		// 注册清理函数
@@ -100,7 +100,7 @@ func (hub *Hub) usingProvide(p Provided) error {
 			t := ft.Out(i)
 
 			if t == reflect.TypeOf(Annotated{}) {
-				return werr.Errorf(
+				return errors.Errorf(
 					"di.Annotated should be passed to di.Provide directly, "+
 						"it should not be returned by the constructor: "+
 						"di.Provide received %v from:\n%+v",
@@ -110,7 +110,7 @@ func (hub *Hub) usingProvide(p Provided) error {
 	}
 
 	if err := hub.Provide(constructor); err != nil {
-		return werr.Errorf("di.Provide(%v) from:\n%+vFailed: %v", xreflect.FuncName(constructor), p.Stack, err)
+		return errors.Errorf("di.Provide(%v) from:\n%+vFailed: %v", xreflect.FuncName(constructor), p.Stack, err)
 	}
 
 	return nil

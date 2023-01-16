@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/cockroachdb/errors"
 	"github.com/stretchr/testify/suite"
-	"github.com/ybzhanghx/pkgs/werr"
 )
 
 type AppConfig struct {
@@ -109,7 +109,7 @@ func initConfig(file, config string) {
 	Reset()
 	outputFile, outputError := os.OpenFile(file, os.O_WRONLY|os.O_CREATE, 0666)
 	if outputError != nil {
-		panic(werr.New("an error occurred with file opening or creation"))
+		panic(errors.New("an error occurred with file opening or creation"))
 	}
 	defer func() {
 		_ = outputFile.Close()

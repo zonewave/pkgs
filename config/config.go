@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/ybzhanghx/pkgs/util"
-	"github.com/ybzhanghx/pkgs/util/fileutil"
-	"github.com/ybzhanghx/pkgs/werr"
+	"github.com/cockroachdb/errors"
+	"github.com/zonewave/pkgs/util"
+	"github.com/zonewave/pkgs/util/fileutil"
 	"io"
 	"os"
 	"path/filepath"
@@ -15,8 +15,8 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/gocarina/gocsv"
 	"github.com/spf13/afero"
-	"github.com/ybzhanghx/pkgs/config/encode"
-	"github.com/ybzhanghx/pkgs/util/cputil"
+	"github.com/zonewave/pkgs/config/encode"
+	"github.com/zonewave/pkgs/util/cputil"
 	"gopkg.in/yaml.v2"
 )
 
@@ -79,7 +79,7 @@ func set(configFile string, cfgStructPtr interface{}) error {
 		return InvalidConfigTypeError(configType)
 	}
 	if err := checkObject(cfgStructPtr); err != nil {
-		return werr.WithStack(err)
+		return errors.WithStack(err)
 	}
 
 	configer.configType = configType
@@ -268,12 +268,12 @@ func (c *Configer) processTagLocalFile() error {
 	return encode.Encode(c.container, "file", func(key string) (string, error) {
 		filename, err := c.searchFile(key)
 		if err != nil {
-			return "", werr.WithStack(err)
+			return "", errors.WithStack(err)
 		}
 
 		data, err := afero.ReadFile(c.fs, filename)
 		if err != nil {
-			return "", werr.WithStack(err)
+			return "", errors.WithStack(err)
 		}
 
 		return string(data), nil

@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/ybzhanghx/pkgs/util/cputil"
+	"github.com/zonewave/pkgs/util/cputil"
 	"time"
 
 	"github.com/gin-contrib/cors"

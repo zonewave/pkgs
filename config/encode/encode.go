@@ -2,14 +2,13 @@ package encode
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"reflect"
 	"strconv"
 	"strings"
 
+	"github.com/cockroachdb/errors"
 	"github.com/gocarina/gocsv"
-	"github.com/ybzhanghx/pkgs/werr"
 	"gopkg.in/yaml.v2"
 )
 
@@ -47,10 +46,10 @@ func walkStructValue(v reflect.Value, tag string, fn GetValueFn) (err error) {
 				fieldObj := reflect.New(typ.Field(i).Type).Interface()
 				value, err := fn(name)
 				if err != nil {
-					return werr.WithStack(err)
+					return errors.WithStack(err)
 				}
 				if err := json.Unmarshal([]byte(value), fieldObj); err != nil {
-					return werr.WithStack(err)
+					return errors.WithStack(err)
 				}
 
 				fVal.Set(reflect.Indirect(reflect.ValueOf(fieldObj)))
@@ -59,11 +58,11 @@ func walkStructValue(v reflect.Value, tag string, fn GetValueFn) (err error) {
 			} else if isYaml(name) {
 				value, err := fn(name)
 				if err != nil {
-					return werr.WithStack(err)
+					return errors.WithStack(err)
 				}
 				fieldObj := reflect.New(typ.Field(i).Type).Interface()
 				if err := yaml.Unmarshal([]byte(value), fieldObj); err != nil {
-					return werr.WithStack(err)
+					return errors.WithStack(err)
 				}
 				fVal.Set(reflect.Indirect(reflect.ValueOf(fieldObj)))
 
@@ -75,11 +74,11 @@ func walkStructValue(v reflect.Value, tag string, fn GetValueFn) (err error) {
 			if isCSV(name) {
 				value, err := fn(name)
 				if err != nil {
-					return werr.WithStack(err)
+					return errors.WithStack(err)
 				}
 				fieldObj := reflect.New(typ.Field(i).Type).Interface()
 				if err := gocsv.UnmarshalBytes([]byte(value), fieldObj); err != nil {
-					return werr.WithStack(err)
+					return errors.WithStack(err)
 				}
 				fVal.Set(reflect.Indirect(reflect.ValueOf(fieldObj)))
 
