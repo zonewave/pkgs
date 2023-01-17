@@ -13,7 +13,7 @@ func Test_run(t *testing.T) {
 
 }
 
-func Test_r(t *testing.T) {
+func Test_RenameFiles(t *testing.T) {
 	err := os.Chdir("./")
 	require.NoError(t, err)
 	_, err = os.Create("tmp1.py")
