@@ -106,7 +106,7 @@ func NewEntry(logger *Logger) *Entry {
 
 // Exported from logrus
 var (
-	// Creates a new logger. Configuration should be set by changing `Formatter`,
+	// New Creates a new logger. Configuration should be set by changing `Formatter`,
 	// `Out` and `Hooks` directly on the default logger instance. You can also just
 	// instantiate your own:
 	//

@@ -25,6 +25,10 @@ func TestCallerFuncName(t *testing.T) {
 	assert.True(t, strings.Contains(baz(), "TestCallerFuncName"))
 }
 
+func TestFuncName(t *testing.T) {
+	assert.True(t, strings.Contains(FuncName(bar), "runtimeutil.bar"))
+}
+
 func foo(skip int) string {
 	_, _, s := Caller(skip)
 	return s

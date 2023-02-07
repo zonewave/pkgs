@@ -1,4 +1,4 @@
-package di
+package xdig
 
 import (
 	"strings"
@@ -11,7 +11,12 @@ import (
 
 func TestHub_New(t *testing.T) {
 	t.Run("basic di", func(t *testing.T) {
-		hub, err := New(module1, ValidateHub(true))
+		hub := New()
+		err := hub.Provide(module1)
+		require.NoError(t, err)
+
+		require.Len(t, hub.HubProvideGet(), 4)
+		require.Contains(t, hub.HubProvideGet().String(), "NewE")
 		require.NoError(t, err)
 		require.NotNil(t, hub)
 
@@ -31,13 +36,11 @@ func TestHub_New(t *testing.T) {
 		require.NoError(t, err)
 	})
 
-	t.Run("annotation", func(t *testing.T) {
-		k0 := &K0{}
-		hub, err := New(module2, Annotation(func(ann *Annotated) {
-			ann.Target = func() *K0 { return k0 }
-			ann.Close = k0.Close
-		}))
+	t.Run("name", func(t *testing.T) {
+		hub := New()
+		err := hub.Provide(module2)
 		require.NoError(t, err)
+
 		require.NotNil(t, hub)
 
 		// invoke now
@@ -46,59 +49,57 @@ func TestHub_New(t *testing.T) {
 		err = hub.Invoke(func(k2 K2) { assert.Equal(t, k2.J.Name, "j2") })
 		require.NoError(t, err)
 
-		// cleanup and check it
-		hub.Cleanup()
-		require.True(t, k0.Closed)
 	})
 
 	t.Run("missing deps", func(t *testing.T) {
-		hub, err := New(moduleFailed, ValidateHub(false))
-		require.NoError(t, err) // won't check missing H in G, only check it after invoke
-		require.NotNil(t, hub)
+		hub := New()
+		err := hub.Provide(moduleFailed)
+		require.NoError(t, err)
 
 		err = hub.Invoke(func(g G) {})
 		assert.Error(t, err)
 		assert.True(t, strings.Contains(err.Error(), "missing dependencies"))
 	})
+	t.Run("provide failed", func(t *testing.T) {
+		hub := New()
+		err := hub.Provide(NewProvide(1))
+		require.Error(t, err)
+	})
 }
 
-var module1 = Options(
-	Provide(func() A {
+var module1 = Groups(
+	NewProvide(func() A {
 		return A{Name: "a"}
 	}),
-	Provide(func(a A) B {
+	NewProvide(func(a A) B {
 		return B{
 			A:   a,
 			Age: 20,
 		}
 	}),
-	Provide(func(a A, b B) C {
+	NewProvide(func(a A, b B) C {
 		return C{
 			A:      a,
 			B:      b,
 			Number: 100,
 		}
 	}),
-	Provide(NewE),
+	NewProvide(NewE),
 )
 
-var module2 = Options(
-	Provide(Annotated{
-		Name: "j1",
-		Target: func() J {
-			return J{Name: "j1"}
-		},
-	}),
-	Provide(Annotated{
-		Name: "j2",
-		Target: func() J {
-			return J{Name: "j2"}
-		},
-	}),
+var module2 = Groups(
+	NewProvide(func() J {
+		return J{Name: "j1"}
+	}, dig.Name("j1"),
+	),
+	NewProvide(func() J {
+		return J{Name: "j2"}
+	}, dig.Name("j2"),
+	),
 )
 
-var moduleFailed = Options(
-	Provide(func(g G) H {
+var moduleFailed = Groups(
+	NewProvide(func(g G) H {
 		return H{
 			G:    g,
 			Name: "h",

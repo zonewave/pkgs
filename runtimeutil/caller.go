@@ -2,6 +2,7 @@ package runtimeutil
 
 import (
 	"fmt"
+	"reflect"
 	"runtime"
 	"strings"
 )
@@ -34,4 +35,14 @@ func Caller(skip int) (file string, line int, functionName string) {
 	}
 
 	return file, line, runtime.FuncForPC(pc).Name()
+}
+
+// FuncName returns a funcs formatted name
+func FuncName(fn interface{}) string {
+	fnV := reflect.ValueOf(fn)
+	if fnV.Kind() != reflect.Func {
+		return fmt.Sprint(fn)
+	}
+
+	return runtime.FuncForPC(fnV.Pointer()).Name()
 }

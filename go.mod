@@ -4,7 +4,6 @@ go 1.19
 
 require (
 	github.com/BurntSushi/toml v1.2.1
-	github.com/Soft/iter v0.1.0
 	github.com/cockroachdb/errors v1.9.0
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.1
@@ -16,7 +15,7 @@ require (
 	github.com/spf13/afero v1.9.2
 	github.com/stretchr/testify v1.8.1
 	github.com/tinylib/msgp v1.1.6
-	go.uber.org/dig v1.15.0
+	go.uber.org/dig v1.16.1
 	gopkg.in/yaml.v2 v2.4.0
 )
 
