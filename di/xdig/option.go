@@ -2,7 +2,7 @@ package xdig
 
 import (
 	"fmt"
-	"github.com/zonewave/pkgs/runtimeutil"
+	"github.com/zonewave/pkgs/util/runtimeutil"
 	"strings"
 
 	"go.uber.org/dig"

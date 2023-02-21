@@ -4,7 +4,8 @@ import (
 	"github.com/cockroachdb/errors"
 	"github.com/zonewave/pkgs/log"
 	"github.com/zonewave/pkgs/mstrings"
-	"github.com/zonewave/pkgs/slice"
+	"github.com/zonewave/pkgs/util/expr"
+	"github.com/zonewave/pkgs/util/sliceutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -48,7 +49,7 @@ func renameFiles(curPath string, fn DirEntryNodeFn) error {
 	if err != nil {
 		return errors.WithStack(err)
 	}
-	slice.Slices[os.DirEntry](dirEntry).IterFn(
+	sliceutil.IterFn[os.DirEntry](dirEntry,
 		func(dirEntryNode os.DirEntry) bool {
 			if dirEntryNode.IsDir() || filepath.Ext(dirEntryNode.Name()) != ".py" {
 				return true
@@ -96,8 +97,11 @@ func RenameMethod1(dirEntryNode os.DirEntry) error {
 }
 func RenameMethod2(dirEntryNode os.DirEntry) error {
 	fileName := dirEntryNode.Name()
-	newName := strings.Replace(fileName, "剑指", "", 1)
-	newName = mstrings.SpaceRemoveAll(newName)
+
+	replace := func(f string) string {
+		return strings.Replace(f, "剑指", "", 1)
+	}
+	newName := expr.FnList(fileName, replace, mstrings.SpaceRemoveAll)
 	err := os.Rename(fileName, newName)
 	if err != nil {
 		return errors.WithStack(err)

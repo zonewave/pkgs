@@ -35,7 +35,7 @@ func TestEncode(t *testing.T) {
 	type struct1 struct {
 		Basic
 		Name   string    `env:"struct1_name"`  // string
-		Hosts  []string  `env:"struct1_hosts"` // slice
+		Hosts  []string  `env:"struct1_hosts"` // sliceutil
 		Hosts1 [3]string `env:"struct1_hosts"` // array
 		Port   int       `env:"struct1_port"`  // int
 		Debug  bool      `env:"struct1_debug"` // bool
