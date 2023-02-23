@@ -1,4 +1,4 @@
-package util
+package bitutil
 
 func BitMapGet(index int, data []byte) bool {
 	if index >= (len(data) << 3) {
