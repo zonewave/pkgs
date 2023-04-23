@@ -294,3 +294,35 @@ func TestSum(t *testing.T) {
 		})
 	}
 }
+
+func TestFilter(t *testing.T) {
+	type args[T any] struct {
+		arr []T
+		fn  func(item T) bool
+	}
+	type testCase[T any] struct {
+		name string
+		args args[T]
+		want []T
+	}
+	tests := []testCase[int]{
+		{
+			name: "test",
+			args: args[int]{
+				arr: GenerateSequences[int](1, 6, 1),
+				fn: func(item int) bool {
+					return item%2 == 0
+				},
+			},
+			want: []int{2, 4},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Filter(tt.args.arr, tt.args.fn); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Filter() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

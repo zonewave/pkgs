@@ -45,6 +45,17 @@ func Map[T, K any](arr []T, fn func(item T) K) []K {
 	return ret
 }
 
+// Filter filter slice
+func Filter[T any](arr []T, fn func(item T) bool) []T {
+	ret := make([]T, 0, len(arr))
+	for _, item := range arr {
+		if fn(item) {
+			ret = append(ret, item)
+		}
+	}
+	return ret
+}
+
 // Reduce reduce slice
 func Reduce[T any](arr []T, fn func(curItem, preCum T) T) []T {
 
