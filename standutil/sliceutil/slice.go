@@ -99,3 +99,13 @@ func GenerateSequences[T constraints.Integer](start, end, step T) []T {
 	return ret
 
 }
+
+// GroupBy slice group by to map
+func GroupBy[T any, K comparable](slice []T, id func(T) K) map[K][]T {
+	ret := make(map[K][]T)
+	for _, item := range slice {
+		k := id(item)
+		ret[k] = append(ret[k], item)
+	}
+	return ret
+}

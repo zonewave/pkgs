@@ -1,11 +1,12 @@
 package sliceutil
 
 import (
-	"github.com/stretchr/testify/require"
-	"golang.org/x/exp/constraints"
 	"reflect"
 	"strconv"
 	"testing"
+
+	"github.com/stretchr/testify/require"
+	"golang.org/x/exp/constraints"
 )
 
 func TestItemInSlice(t *testing.T) {
@@ -322,6 +323,42 @@ func TestFilter(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := Filter(tt.args.arr, tt.args.fn); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Filter() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGroupBy(t *testing.T) {
+	type args[T any, K comparable] struct {
+		slice []T
+		id    func(T) K
+	}
+	type testCase[T any, K comparable] struct {
+		name string
+		args args[T, K]
+		want map[K][]T
+	}
+	tests := []testCase[int, int]{
+		// TODO: Add test cases.
+		{
+			name: "orderby Odd",
+			args: args[int, int]{
+
+				slice: GenerateSequences[int](1, 6, 1),
+				id: func(item int) int {
+					return item % 2
+				},
+			},
+			want: map[int][]int{
+				0: {2, 4},
+				1: {1, 3, 5},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GroupBy(tt.args.slice, tt.args.id); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GroupBy() = %v, want %v", got, tt.want)
 			}
 		})
 	}
