@@ -1,9 +1,10 @@
 package stringutil
 
 import (
-	"github.com/stretchr/testify/require"
-	"github.com/zonewave/pkgs/standutil/randutil"
 	"testing"
+
+	"github.com/stretchr/testify/require"
+	"github.com/zonewave/pkgs/randutil"
 )
 
 func TestSpaceRemoveAll(t *testing.T) {

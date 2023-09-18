@@ -1,4 +1,4 @@
-package mock
+package mocks
 
 //go:generate mockgen --build_flags=--mod=mod -destination aferomock/fs_mock.go -package=aferomock github.com/spf13/afero Fs
 //go:generate mockgen --build_flags=--mod=mod -destination aferomock/file_mock.go -package=aferomock github.com/spf13/afero File

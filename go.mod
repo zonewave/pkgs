@@ -11,7 +11,7 @@ require (
 	github.com/jinzhu/copier v0.3.5
 	github.com/spf13/afero v1.9.2
 	github.com/stretchr/testify v1.8.1
-	go.uber.org/dig v1.16.1
+	go.uber.org/mock v0.3.0
 	golang.org/x/exp v0.0.0-20230213192124-5e25df0256eb
 	gopkg.in/yaml.v2 v2.4.0
 )

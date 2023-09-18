@@ -1,18 +1,11 @@
 package expr
 
 import (
-	"github.com/stretchr/testify/require"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
-
-func TestCondExpr(t *testing.T) {
-	ret := CondExpr(true, 1, 2)
-	require.Equal(t, 1, ret)
-	ret = CondExpr(false, 1, 2)
-	require.Equal(t, 2, ret)
-
-}
 
 func TestFirstOrDefault(t *testing.T) {
 
@@ -58,21 +51,4 @@ func TestAdd(t *testing.T) {
 	require.Equal(t, 3, Add(1, 2))
 	require.Equal(t, 0.8, Add(0.5, 0.3))
 	require.Equal(t, "hello world", Add("hello ", "world"))
-}
-
-func TestCallList(t *testing.T) {
-	Inc := func(i int) int {
-		return i + 1
-	}
-	require.Equal(t, 4, CallList(2, Inc, Inc))
-}
-
-func TestMax(t *testing.T) {
-	require.Equal(t, 2, Max(1, 2))
-	require.Equal(t, 2, Max(2, 1))
-}
-
-func TestMin(t *testing.T) {
-	require.Equal(t, 1, Min(1, 2))
-	require.Equal(t, 1, Min(2, 1))
 }

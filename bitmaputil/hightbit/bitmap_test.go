@@ -1,8 +1,9 @@
 package hightbit
 
 import (
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestBitMapAll(t *testing.T) {

@@ -1,11 +1,12 @@
 package stringutil
 
 import (
-	"github.com/zonewave/pkgs/standutil/expr"
-	"github.com/zonewave/pkgs/standutil/randutil"
 	"math/rand"
 	"strings"
 	"unicode"
+
+	"github.com/zonewave/pkgs/expr"
+	"github.com/zonewave/pkgs/randutil"
 )
 
 // RandString returns a string representation of random

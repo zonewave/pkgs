@@ -1,17 +1,18 @@
 package fileutil
 
 import (
-	"github.com/golang/mock/gomock"
-	"github.com/stretchr/testify/require"
 	"os"
 	"testing"
+
+	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/require"
 )
 
 func TestAbsPath(t *testing.T) {
 	t.Run("normal", func(t *testing.T) {
 		ret, err := AbsPath("file_test.go")
 		require.NoError(t, err)
-		expectFileSuffix := "pkgs/standutil/fileutil/file_test.go"
+		expectFileSuffix := "pkgs/fileutil/file_test.go"
 		suffixLen := len(expectFileSuffix)
 		require.GreaterOrEqual(t, len(ret), suffixLen)
 		require.Equal(t, expectFileSuffix, ret[len(ret)-suffixLen:])
@@ -19,11 +20,11 @@ func TestAbsPath(t *testing.T) {
 	})
 	t.Run("use env", func(t *testing.T) {
 		envKey := "TestAbsPath"
-		err := os.Setenv(envKey, "standutil/fileutil")
+		err := os.Setenv(envKey, "fileutil")
 		require.NoError(t, err)
 		ret, err := AbsPath("$" + envKey + "/file_test")
 		require.NoError(t, err)
-		require.GreaterOrEqual(t, len(ret), len("standutil/fileutil/file_test"))
+		require.GreaterOrEqual(t, len(ret), len("fileutil/file_test"))
 	})
 
 }

@@ -1,12 +1,13 @@
 package fileutil
 
 import (
-	"github.com/cockroachdb/errors"
-	"github.com/spf13/afero"
 	"io"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/cockroachdb/errors"
+	"github.com/spf13/afero"
 )
 
 var (

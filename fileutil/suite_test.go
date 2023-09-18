@@ -1,9 +1,10 @@
 package fileutil
 
 import (
-	"github.com/golang/mock/gomock"
-	"github.com/zonewave/pkgs/mock/aferomock"
 	"testing"
+
+	"github.com/golang/mock/gomock"
+	"github.com/zonewave/pkgs/mocks/aferomock"
 
 	"github.com/stretchr/testify/suite"
 )
