@@ -2,7 +2,6 @@ package sliceutil
 
 import "golang.org/x/exp/constraints"
 
-// Filter filter slice
 // Sequences generate sequence
 func Sequences[T constraints.Integer](start, end, step T) []T {
 	if step == 0 {
@@ -40,6 +39,7 @@ func GroupBy[T any, K comparable](slice []T, id func(T) K) map[K][]T {
 	return ret
 }
 
+// GenerateSlice generate slice
 func GenerateSlice[T any](total int, generate func(int) T) []T {
 	ret := make([]T, 0, total)
 	for i := 0; i < total; i++ {

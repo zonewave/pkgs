@@ -7,21 +7,24 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-type LocalIdGenerator[T constraints.Integer] struct {
+// LocalIDGenerator for generating id.
+type LocalIDGenerator[T constraints.Integer] struct {
 	id         T
 	Start, End T
 	mu         sync.Mutex
 }
 
-func NewLocalIdGenerator[T constraints.Integer](start, end T) *LocalIdGenerator[T] {
-	return &LocalIdGenerator[T]{
+// NewLocalIDGenerator create a new LocalIDGenerator.
+func NewLocalIDGenerator[T constraints.Integer](start, end T) *LocalIDGenerator[T] {
+	return &LocalIDGenerator[T]{
 		id:    start,
 		Start: start,
 		End:   end,
 	}
 }
 
-func (l *LocalIdGenerator[T]) Next() (T, error) {
+// Next generate next id.
+func (l *LocalIDGenerator[T]) Next() (T, error) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	ret := l.id
@@ -31,7 +34,9 @@ func (l *LocalIdGenerator[T]) Next() (T, error) {
 	}
 	return ret, nil
 }
-func (l *LocalIdGenerator[T]) Nexts(sum int) []T {
+
+// Nexts batch generate next id.
+func (l *LocalIDGenerator[T]) Nexts(sum int) []T {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	if l.id+T(sum) > l.End {
