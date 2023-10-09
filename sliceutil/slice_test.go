@@ -109,3 +109,42 @@ func TestGroupBy(t *testing.T) {
 		})
 	}
 }
+
+func TestGenerateSlice(t *testing.T) {
+	type args[T any] struct {
+		total    int
+		generate func() T
+		opts     []func(*GenerateSliceOption[T])
+	}
+	type testCase[T any] struct {
+		name string
+		args args[T]
+		want []T
+	}
+	tests := []testCase[int]{
+		{
+			name: "generate slice",
+			args: args[int]{
+				total: 10,
+				generate: func() int {
+					return 1
+				},
+				opts: []func(*GenerateSliceOption[int]){
+					func(option *GenerateSliceOption[int]) {
+						option.ApplySliceItem = func(i int, item int) int {
+							return i
+						}
+					},
+				},
+			},
+			want: []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GenerateSlice(tt.args.total, tt.args.generate, tt.args.opts...); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GenerateSlice() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
