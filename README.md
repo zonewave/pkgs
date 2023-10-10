@@ -11,9 +11,9 @@ Useful utils package for the Go
 - cputil:  copier extension
 - expr: expr, eg:Add,Min,Max,Cond
 - fileutil: base on afero for file extension
+- idgenerator: localId Generator
 - maputil: support eg:Map
 - sliceutil: support generic,eg:Contain,Sum,Map,Reduce
-- di: uber/dig extension
 
 [ci-img]: https://github.com/zonewave/pkgs/actions/workflows/go.yaml/badge.svg
 [ci]: https://github.com/zonewave/pkgs/actions/workflows/go.yaml
