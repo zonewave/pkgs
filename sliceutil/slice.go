@@ -66,3 +66,15 @@ func GenerateSlice[T any](total int, generate func() T, opts ...func(*GenerateSl
 	}
 	return ret
 }
+
+// Map creates an slice of values by running each element of slice thru iteratee function.
+// Play: https://go.dev/play/p/biaTefqPquw
+func Map[T any, U any](slice []T, iteratee func(item T) U) []U {
+	result := make([]U, len(slice), cap(slice))
+
+	for i := 0; i < len(slice); i++ {
+		result[i] = iteratee(slice[i])
+	}
+
+	return result
+}
